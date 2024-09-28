@@ -224,6 +224,7 @@ footer {
     height: 2px;
     background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
     animation: meteor linear;
+    will-change: transform;
 }
 
 .meteor::before {
@@ -268,12 +269,13 @@ footer {
 
 .heart {
     position: absolute;
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
     background-color: #ff6b8b;
-    opacity: 0.8;
+    opacity: 0.6;
     transform: rotate(45deg);
     animation: fallHeart linear infinite;
+    will-change: transform;
 }
 
 .heart::before,

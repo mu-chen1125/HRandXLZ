@@ -43,15 +43,15 @@ function displayLogs(logs) {
   });
 }
 
+let meetDate = new Date('2024-07-16T00:00:00');
+let loveDate = new Date('2024-09-09T00:00:00');
+
 function updateTimers() {
     const now = new Date();
     now.setHours(0, 0, 0, 0);
 
-    const meetDate = new Date('2024-07-16T00:00:00');
-    const loveDate = new Date('2024-09-09T00:00:00');
-
-    const meetDiff = Math.floor((now - meetDate) / (1000 * 60 * 60 * 24));
-    const loveDiff = Math.floor((now - loveDate) / (1000 * 60 * 60 * 24));
+    const meetDiff = Math.max(0, Math.floor((now - meetDate) / (1000 * 60 * 60 * 24)));
+    const loveDiff = Math.max(0, Math.floor((now - loveDate) / (1000 * 60 * 60 * 24)));
 
     document.querySelector('#meetTimer span').textContent = meetDiff;
     document.querySelector('#loveTimer span').textContent = loveDiff;
@@ -94,16 +94,16 @@ document.addEventListener('DOMContentLoaded', function() {
         meteor.className = 'meteor';
         meteor.style.top = `${Math.random() * window.innerHeight}px`;
         meteor.style.right = '-200px';
-        meteor.style.animationDuration = `${Math.random() * 1 + 0.5}s`;
+        meteor.style.animationDuration = `${Math.random() * 1.5 + 1}s`;
         meteorShower.appendChild(meteor);
 
         setTimeout(() => {
             meteorShower.removeChild(meteor);
-        }, 1500);
+        }, 2000);
     }
 
     // 每隔一段时间生成一颗流星
-    setInterval(createMeteor, 1500);
+    setInterval(createMeteor, 2000); // 降低生成频率，每2秒生成一颗流星
 
     // 下落的小爱心效果
     function createHeart() {
@@ -111,16 +111,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const heart = document.createElement('div');
         heart.className = 'heart';
         heart.style.left = `${Math.random() * window.innerWidth}px`;
-        heart.style.animationDuration = `${Math.random() * 2 + 1}s`; // 降低持续时间，使小爱心更快
+        heart.style.animationDuration = `${Math.random() * 2 + 2}s`;
         fallingHearts.appendChild(heart);
 
         setTimeout(() => {
             fallingHearts.removeChild(heart);
-        }, 3000); // 减少移除时间
+        }, 4000);
     }
 
     // 每隔一段时间生成一个小爱心
-    setInterval(createHeart, 1000); // 更频繁地生成小爱心
+    setInterval(createHeart, 1500); // 降低生成频率，每1.5秒生成一个小爱心
 
     saveLog('网站初始化：相识日期设置为2024年07月16日，恋爱纪念日设置为2024年09月09日');
 
@@ -142,15 +142,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     saveDatesBtn.addEventListener('click', function() {
-        const newMeetDate = new Date(newMeetDateInput.value);
-        const newLoveDate = new Date(newLoveDateInput.value);
+        const newMeetDate = new Date(newMeetDateInput.value + 'T00:00:00');
+        const newLoveDate = new Date(newLoveDateInput.value + 'T00:00:00');
 
         if (newMeetDate && newLoveDate) {
             meetDate = newMeetDate;
             loveDate = newLoveDate;
             updateTimers();
             editDatesModal.style.display = 'none';
-            saveLog(`日期已更新：相识日期 ${newMeetDate.toLocaleDateString()}, 恋爱纪念日 ${newLoveDate.toLocaleDateString()}`);
+            saveLog(`日期已更新：相识日期 ${meetDate.toLocaleDateString()}, 恋爱纪念日 ${loveDate.toLocaleDateString()}`);
         } else {
             alert('请输入有效的日期');
         }
@@ -164,13 +164,29 @@ document.addEventListener('DOMContentLoaded', function() {
         const now = new Date();
         now.setHours(0, 0, 0, 0);
 
-        const meetDiff = Math.floor((now - meetDate) / (1000 * 60 * 60 * 24));
-        const loveDiff = Math.floor((now - loveDate) / (1000 * 60 * 60 * 24));
+        const meetDiff = Math.max(0, Math.floor((now - meetDate) / (1000 * 60 * 60 * 24)));
+        const loveDiff = Math.max(0, Math.floor((now - loveDate) / (1000 * 60 * 60 * 24)));
 
         document.querySelector('#meetTimer span').textContent = meetDiff;
         document.querySelector('#loveTimer span').textContent = loveDiff;
-
-        document.querySelector('#meetTimer').textContent = `距离相识（${meetDate.toLocaleDateString()}）：${meetDiff}天`;
-        document.querySelector('#loveTimer').textContent = `距离恋爱纪念日（${loveDate.toLocaleDateString()}）：${loveDiff}天`;
     }
+
+    function checkPerformance() {
+        const now = performance.now();
+        setTimeout(() => {
+            const elapsed = performance.now() - now;
+            if (elapsed > 50) { // 如果帧时间超过50ms，减少动画效果
+                clearInterval(meteorInterval);
+                clearInterval(heartInterval);
+                meteorInterval = setInterval(createMeteor, 3000);
+                heartInterval = setInterval(createHeart, 2000);
+            }
+        }, 1000);
+    }
+
+    let meteorInterval = setInterval(createMeteor, 2000);
+    let heartInterval = setInterval(createHeart, 1500);
+
+    checkPerformance();
+    setInterval(checkPerformance, 10000); // 每10秒检查一次性能
 });
