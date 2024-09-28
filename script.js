@@ -5,30 +5,32 @@ const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
 // 保存日志信息到 Supabase
 async function saveLog(message) {
-  const { data, error } = await supabase
-    .from('logs')
-    .insert([{ message: message }]);
-  
-  if (error) {
-    console.error('日志保存出错：', error);
-  } else {
+  try {
+    const { data, error } = await supabase
+      .from('logs')
+      .insert([{ message: message }]);
+    
+    if (error) throw error;
     console.log('日志已保存：', data);
+  } catch (error) {
+    console.error('日志保存出错：', error);
   }
 }
 
 // 从 Supabase 获取日志信息
 async function getLogs() {
-  const { data, error } = await supabase
-    .from('logs')
-    .select('*')
-    .order('created_at', { ascending: false })
-    .limit(50);
+  try {
+    const { data, error } = await supabase
+      .from('logs')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(50);
 
-  if (error) {
-    console.error('日志读取出错：', error);
-  } else {
+    if (error) throw error;
     console.log('获取到的日志：', data);
     displayLogs(data);
+  } catch (error) {
+    console.error('日志读取出错：', error);
   }
 }
 
