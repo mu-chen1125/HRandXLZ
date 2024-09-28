@@ -1,3 +1,50 @@
+// 初始化 Supabase 客户端
+const supabaseUrl = 'https://vuxbqfacclzncwuyeiar.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ1eGJxZmFjY2x6bmN3dXllaWFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjc1MjQ1NDQsImV4cCI6MjA0MzEwMDU0NH0.-cDq2zClDjmzrH3N587jjyUn8Y9eWG9_xMGXh26N0Co';
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+// 保存日志信息到 Supabase
+async function saveLog(message) {
+  const { data, error } = await supabase
+    .from('logs')
+    .insert([
+      { message: message }
+    ]);
+  
+  if (error) {
+    console.error('日志保存出错：', error);
+  } else {
+    console.log('日志已保存：', data);
+  }
+}
+
+// 从 Supabase 获取日志信息
+async function getLogs() {
+  const { data, error } = await supabase
+    .from('logs')
+    .select('*')
+    .order('created_at', { ascending: false });
+  
+  if (error) {
+    console.error('日志读取出错：', error);
+  } else {
+    console.log('获取到的日志：', data);
+    // 在页面中显示日志
+    displayLogs(data);
+  }
+}
+
+function displayLogs(logs) {
+  const logContainer = document.getElementById('log-container');
+  logContainer.innerHTML = ''; // 清空容器
+  
+  logs.forEach(log => {
+    const logItem = document.createElement('div');
+    logItem.textContent = `${log.created_at}: ${log.message}`;
+    logContainer.appendChild(logItem);
+  });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // 初始化Swiper轮播
     new Swiper('.swiper', {
@@ -47,15 +94,37 @@ document.addEventListener('DOMContentLoaded', function() {
     scheduleNextUpdate();
 
     // 日志功能
-    let journalEntries = JSON.parse(localStorage.getItem('journalEntries')) || [];
-    let editingIndex = -1; // 新增：用于跟踪正在编辑的条目索引
-
-    function saveEntries() {
-        localStorage.setItem('journalEntries', JSON.stringify(journalEntries));
-        console.log('Saved entries:', journalEntries); // 调试信息
+    async function getJournalEntries() {
+        const { data, error } = await supabase
+            .from('journal_entries')
+            .select('*')
+            .order('date', { ascending: false });
+        
+        if (error) {
+            console.error('Error fetching journal entries:', error);
+            saveLog('获取日志条目失败');
+            return [];
+        }
+        saveLog('成功获取日志条目');
+        return data;
     }
 
-    function renderJournalEntries() {
+    async function saveJournalEntry(entry) {
+        const { data, error } = await supabase
+            .from('journal_entries')
+            .insert([entry]);
+        
+        if (error) {
+            console.error('Error saving journal entry:', error);
+            saveLog('保存日志条目失败');
+            return false;
+        }
+        saveLog('成功保存日志条目');
+        return true;
+    }
+
+    async function renderJournalEntries() {
+        const journalEntries = await getJournalEntries();
         const journalContainer = document.getElementById('journalEntries');
         journalContainer.innerHTML = '';
         journalEntries.forEach((entry, index) => {
@@ -65,12 +134,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 <h3>${entry.date} - ${entry.location}</h3>
                 <p>${entry.description}</p>
                 ${entry.image ? `<img src="${entry.image}" alt="${entry.description}">` : ''}
-                <button onclick="editEntry(${index})">编辑</button>
-                <button onclick="deleteEntry(${index})">删除</button>
+                <button onclick="editEntry(${entry.id})">编辑</button>
+                <button onclick="deleteEntry(${entry.id})">删除</button>
             `;
             journalContainer.appendChild(entryElement);
         });
-        console.log('Rendered entries:', journalEntries); // 调试信息
+        console.log('Rendered entries:', journalEntries);
+        saveLog('渲染日志条目');
+    }
+
+    async function saveEntry(entry) {
+        const success = await saveJournalEntry(entry);
+        if (success) {
+            await renderJournalEntries();
+            addJournalForm.reset();
+            saveLog('新日志条目已添加');
+        }
     }
 
     renderJournalEntries();
@@ -81,7 +160,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     addJournalForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        console.log('Form submitted'); // 调试信息
+        console.log('Form submitted');
+        saveLog('提交了新的日志条目表单');
         const newEntry = {
             date: document.getElementById('entryDate').value,
             location: document.getElementById('entryLocation').value,
@@ -102,39 +182,44 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    function saveEntry(entry) {
-        console.log('Saving entry:', entry); // 调试信息
-        if (editingIndex === -1) {
-            journalEntries.push(entry);
-        } else {
-            journalEntries[editingIndex] = entry;
-            editingIndex = -1;
-            submitButton.textContent = '添加新日志';
-        }
-        saveEntries();
-        renderJournalEntries();
-        addJournalForm.reset();
-    }
-
     // 编辑日志条目
-    window.editEntry = function(index) {
-        const entry = journalEntries[index];
+    window.editEntry = async function(id) {
+        const { data: entry, error } = await supabase
+            .from('journal_entries')
+            .select('*')
+            .eq('id', id)
+            .single();
+
+        if (error) {
+            console.error('Error fetching journal entry:', error);
+            saveLog('获取要编辑的日志条目失败');
+            return;
+        }
+
         document.getElementById('entryDate').value = entry.date;
         document.getElementById('entryLocation').value = entry.location;
         document.getElementById('entryDescription').value = entry.description;
-        // 无法直接设置文件输入的值，所以我们跳过图片
-        editingIndex = index;
+        editingIndex = id;
         submitButton.textContent = '保存修改';
-        // 滚动到表单
         addJournalForm.scrollIntoView({ behavior: 'smooth' });
+        saveLog('正在编辑日志条目');
     };
 
     // 删除日志条目
-    window.deleteEntry = function(index) {
+    window.deleteEntry = async function(id) {
         if (confirm('确定要删除这个日志条目吗？')) {
-            journalEntries.splice(index, 1);
-            saveEntries();
-            renderJournalEntries();
+            const { error } = await supabase
+                .from('journal_entries')
+                .delete()
+                .eq('id', id);
+
+            if (error) {
+                console.error('Error deleting journal entry:', error);
+                saveLog('删除日志条目失败');
+            } else {
+                await renderJournalEntries();
+                saveLog('成功删除日志条目');
+            }
         }
     };
 
@@ -172,4 +257,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 每隔一段时间生成一个小爱心
     setInterval(createHeart, 1000); // 更频繁地生成小爱心
+
+    // 在页面加载时获取日志
+    getLogs();
 });
