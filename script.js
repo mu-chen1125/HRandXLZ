@@ -3,6 +3,8 @@ const supabaseUrl = 'https://vuxbqfacclzncwuyeiar.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ1eGJxZmFjY2x6bmN3dXllaWFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjc1MjQ1NDQsImV4cCI6MjA0MzEwMDU0NH0.-cDq2zClDjmzrH3N587jjyUn8Y9eWG9_xMGXh26N0Co';
 const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
+let meetDate, loveDate;
+
 // 保存日志信息到 Supabase
 async function saveLog(message) {
   try {
@@ -57,8 +59,8 @@ function updateTimers() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    let meetDate = new Date('2024-07-16T00:00:00');
-    let loveDate = new Date('2024-09-09T00:00:00');
+    meetDate = new Date('2024-07-16T00:00:00');
+    loveDate = new Date('2024-09-09T00:00:00');
 
     // 初始化Swiper轮播
     new Swiper('.swiper', {
