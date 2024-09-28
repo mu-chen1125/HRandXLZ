@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Love Story</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Dancing+Script&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="meteor-shower"></div>
+    <div id="falling-hearts"></div>
+    
+    <header>
+        <h1>Our Love Story</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">主页</a></li>
+                <li><a href="#anniversary">纪念日</a></li>
+                <li><a href="#journal">日志</a></li>
+                <li><a href="#gallery">相册</a></li>
+                <li><a href="#contact">联系我</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home">
+            <div class="swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><img src="image1.jpg" alt="美好时刻1"><p>我们的第一次约会</p></div>
+                    <div class="swiper-slide"><img src="image2.jpg" alt="美好时刻2"><p>一起旅行的回忆</p></div>
+                    <div class="swiper-slide"><img src="image3.jpg" alt="美好时刻3"><p>共度节日的欢乐</p></div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+        </section>
+
+        <section id="anniversary">
+            <div class="timer">
+                <div id="meetTimer">距离相识：<span>0</span>天</div>
+                <div id="loveTimer">距离恋爱纪念日：<span>0</span>天</div>
+            </div>
+        </section>
+
+        <section id="journal">
+            <h2>我们的日志</h2>
+            <div id="journalEntries">
+                <!-- 日志条目将通过JavaScript动态添加 -->
+            </div>
+            <form id="addJournalForm">
+                <input type="date" id="entryDate" required>
+                <input type="text" id="entryLocation" placeholder="地点" required>
+                <textarea id="entryDescription" placeholder="描述" required></textarea>
+                <input type="file" id="entryImage" accept="image/*">
+                <button type="submit">添加新日志</button>
+            </form>
+        </section>
+
+        <section id="gallery">
+            <h2>我们的相册</h2>
+            <a href="#" class="button">查看完整相册</a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="social-links">
+            <a href="#" target="_blank"><img src="facebook-icon.png" alt="Facebook"></a>
+            <a href="#" target="_blank"><img src="instagram-icon.png" alt="Instagram"></a>
+            <a href="#" target="_blank"><img src="twitter-icon.png" alt="Twitter"></a>
+        </div>
+        <p>&copy; 2024 您的名字. 保留所有权利。</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
