@@ -7,8 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Dancing+Script&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css">
     <link rel="stylesheet" href="styles.css">
-    <!-- 添加这行 -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://vuxbqfacclzncwuyeiar.supabase.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:;">
 </head>
 <body>
     <div id="meteor-shower"></div>
@@ -31,9 +29,9 @@
         <section id="home">
             <div class="swiper">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide"><img src="images/image1.jpg" alt="Image 1"><p>我们的第一次约会</p></div>
-                    <div class="swiper-slide"><img src="images/image2.jpg" alt="Image 2"><p>一起旅行的回忆</p></div>
-                    <div class="swiper-slide"><img src="images/image3.jpg" alt="Image 3"><p>共度节日的欢乐</p></div>
+                    <div class="swiper-slide"><img src="image1.jpg" alt="美好时刻1"><p>我们的第一次约会</p></div>
+                    <div class="swiper-slide"><img src="image2.jpg" alt="美好时刻2"><p>一起旅行的回忆</p></div>
+                    <div class="swiper-slide"><img src="image3.jpg" alt="美好时刻3"><p>共度节日的欢乐</p></div>
                 </div>
                 <div class="swiper-pagination"></div>
                 <div class="swiper-button-prev"></div>
@@ -44,19 +42,7 @@
         <section id="anniversary">
             <div class="timer">
                 <div id="meetTimer">距离相识：<span>0</span>天</div>
-                <button id="editDatesBtn" class="heart-button">❤</button>
                 <div id="loveTimer">距离恋爱纪念日：<span>0</span>天</div>
-            </div>
-            <div id="editDatesModal" class="modal">
-                <div class="modal-content">
-                    <h2>修改日期</h2>
-                    <label for="newMeetDate">新的相识日期：</label>
-                    <input type="date" id="newMeetDate">
-                    <label for="newLoveDate">新的恋爱纪念日：</label>
-                    <input type="date" id="newLoveDate">
-                    <button id="saveDatesBtn">保存</button>
-                    <button id="cancelEditBtn">取消</button>
-                </div>
             </div>
         </section>
 
@@ -78,24 +64,17 @@
             <h2>我们的相册</h2>
             <a href="#" class="button">查看完整相册</a>
         </section>
-
-        <section id="logs">
-            <h2>系统日志</h2>
-            <div id="log-container"></div>
-        </section>
     </main>
 
     <footer>
         <div class="social-links">
-            <a href="#" target="_blank"><img src="images/facebook-icon.png" alt="Facebook"></a>
-            <a href="#" target="_blank"><img src="images/instagram-icon.png" alt="Instagram"></a>
-            <a href="#" target="_blank"><img src="images/twitter-icon.png" alt="Twitter"></a>
+            <a href="#" target="_blank"><img src="facebook-icon.png" alt="Facebook"></a>
+            <a href="#" target="_blank"><img src="instagram-icon.png" alt="Instagram"></a>
+            <a href="#" target="_blank"><img src="twitter-icon.png" alt="Twitter"></a>
         </div>
         <p>&copy; 2024 您的名字. 保留所有权利。</p>
     </footer>
 
-    <!-- 引入 Supabase JavaScript 库 -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
     <script src="script.js"></script>
 </body>
