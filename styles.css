@@ -46,6 +46,8 @@ main {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+    position: relative;
+    z-index: 2;
 }
 
 .swiper {
@@ -208,7 +210,7 @@ footer {
 }
 
 /* 流星效果 */
-#meteor-shower {
+#meteor-shower, #falling-hearts {
     position: fixed;
     top: 0;
     left: 0;
@@ -216,7 +218,7 @@ footer {
     height: 100%;
     pointer-events: none;
     overflow: hidden;
-    z-index: -1;
+    z-index: 1; /* 增加 z-index */
 }
 
 .meteor {
@@ -256,17 +258,6 @@ footer {
 }
 
 /* 下落的小爱心效果 */
-#falling-hearts {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    overflow: hidden;
-    z-index: -1;
-}
-
 .heart {
     position: absolute;
     width: 15px;

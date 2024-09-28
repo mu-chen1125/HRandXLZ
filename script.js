@@ -43,9 +43,6 @@ function displayLogs(logs) {
   });
 }
 
-let meetDate = new Date('2024-07-16T00:00:00');
-let loveDate = new Date('2024-09-09T00:00:00');
-
 function updateTimers() {
     const now = new Date();
     now.setHours(0, 0, 0, 0);
@@ -58,6 +55,9 @@ function updateTimers() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    let meetDate = new Date('2024-07-16T00:00:00');
+    let loveDate = new Date('2024-09-09T00:00:00');
+
     // 初始化Swiper轮播
     new Swiper('.swiper', {
         loop: true,
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
     });
 
-    updateTimers();
+    updateTimers(); // 立即更新计时器
     setInterval(updateTimers, 86400000); // 每24小时更新一次
 
     getLogs();
@@ -157,9 +157,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // 更新 updateTimers 函数，使用全局变量
-    let meetDate = new Date('2024-07-16T00:00:00');
-    let loveDate = new Date('2024-09-09T00:00:00');
-
     function updateTimers() {
         const now = new Date();
         now.setHours(0, 0, 0, 0);
@@ -175,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const now = performance.now();
         setTimeout(() => {
             const elapsed = performance.now() - now;
-            if (elapsed > 50) { // 如果帧时间超过50ms，减少动画效果
+            if (elapsed > 100) { // 将阈值从 50ms 增加到 100ms
                 clearInterval(meteorInterval);
                 clearInterval(heartInterval);
                 meteorInterval = setInterval(createMeteor, 3000);
