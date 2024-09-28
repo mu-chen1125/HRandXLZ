@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // 设置计时器
-    const meetDate = new Date('2024-07-16'); // 设置相识日期为2024年07月16日
+    const meetDate = new Date('2024-07-15'); // 设置相识日期为2024年07月15日
     const loveDate = new Date('YYYY-MM-DD'); // 保持恋爱纪念日不变，请替换为实际日期
 
     function updateTimers() {
