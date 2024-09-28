@@ -42,7 +42,19 @@
         <section id="anniversary">
             <div class="timer">
                 <div id="meetTimer">距离相识（2024年07月16日）：<span>0</span>天</div>
+                <button id="editDatesBtn" class="heart-button">❤</button>
                 <div id="loveTimer">距离恋爱纪念日（2024年09月09日）：<span>0</span>天</div>
+            </div>
+            <div id="editDatesModal" class="modal">
+                <div class="modal-content">
+                    <h2>修改日期</h2>
+                    <label for="newMeetDate">新的相识日期：</label>
+                    <input type="date" id="newMeetDate">
+                    <label for="newLoveDate">新的恋爱纪念日：</label>
+                    <input type="date" id="newLoveDate">
+                    <button id="saveDatesBtn">保存</button>
+                    <button id="cancelEditBtn">取消</button>
+                </div>
             </div>
         </section>
 

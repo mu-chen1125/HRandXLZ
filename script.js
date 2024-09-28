@@ -123,4 +123,54 @@ document.addEventListener('DOMContentLoaded', function() {
     setInterval(createHeart, 1000); // 更频繁地生成小爱心
 
     saveLog('网站初始化：相识日期设置为2024年07月16日，恋爱纪念日设置为2024年09月09日');
+
+    const editDatesBtn = document.getElementById('editDatesBtn');
+    const editDatesModal = document.getElementById('editDatesModal');
+    const saveDatesBtn = document.getElementById('saveDatesBtn');
+    const cancelEditBtn = document.getElementById('cancelEditBtn');
+    const newMeetDateInput = document.getElementById('newMeetDate');
+    const newLoveDateInput = document.getElementById('newLoveDate');
+
+    editDatesBtn.addEventListener('click', function() {
+        editDatesModal.style.display = 'block';
+        newMeetDateInput.value = meetDate.toISOString().split('T')[0];
+        newLoveDateInput.value = loveDate.toISOString().split('T')[0];
+    });
+
+    cancelEditBtn.addEventListener('click', function() {
+        editDatesModal.style.display = 'none';
+    });
+
+    saveDatesBtn.addEventListener('click', function() {
+        const newMeetDate = new Date(newMeetDateInput.value);
+        const newLoveDate = new Date(newLoveDateInput.value);
+
+        if (newMeetDate && newLoveDate) {
+            meetDate = newMeetDate;
+            loveDate = newLoveDate;
+            updateTimers();
+            editDatesModal.style.display = 'none';
+            saveLog(`日期已更新：相识日期 ${newMeetDate.toLocaleDateString()}, 恋爱纪念日 ${newLoveDate.toLocaleDateString()}`);
+        } else {
+            alert('请输入有效的日期');
+        }
+    });
+
+    // 更新 updateTimers 函数，使用全局变量
+    let meetDate = new Date('2024-07-16T00:00:00');
+    let loveDate = new Date('2024-09-09T00:00:00');
+
+    function updateTimers() {
+        const now = new Date();
+        now.setHours(0, 0, 0, 0);
+
+        const meetDiff = Math.floor((now - meetDate) / (1000 * 60 * 60 * 24));
+        const loveDiff = Math.floor((now - loveDate) / (1000 * 60 * 60 * 24));
+
+        document.querySelector('#meetTimer span').textContent = meetDiff;
+        document.querySelector('#loveTimer span').textContent = loveDiff;
+
+        document.querySelector('#meetTimer').textContent = `距离相识（${meetDate.toLocaleDateString()}）：${meetDiff}天`;
+        document.querySelector('#loveTimer').textContent = `距离恋爱纪念日（${loveDate.toLocaleDateString()}）：${loveDiff}天`;
+    }
 });
