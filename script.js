@@ -1,3 +1,7 @@
+window.addEventListener('unhandledrejection', function(event) {
+    console.error('Unhandled promise rejection:', event.reason);
+});
+
 document.addEventListener('DOMContentLoaded', function() {
     // 初始化Swiper轮播
     new Swiper('.swiper', {
@@ -12,8 +16,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // 设置计时器
-    const meetDate = new Date('2024-07-15'); // 设置相识日期为2024年07月15日
-    const loveDate = new Date('YYYY-MM-DD'); // 保持恋爱纪念日不变，请替换为实际日期
+    const meetDate = new Date('2024-07-15'); // 相识日期为2024年07月15日
+    const loveDate = new Date('2024-09-09'); // 设置恋爱纪念日为2024年09月09日
 
     function updateTimers() {
         const now = new Date();
