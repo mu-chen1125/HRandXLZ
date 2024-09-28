@@ -23,13 +23,13 @@ async function getLogs() {
   const { data, error } = await supabase
     .from('logs')
     .select('*')
-    .order('created_at', { ascending: false });
-  
+    .order('created_at', { ascending: false })
+    .limit(50); // 限制返回最近的50条日志
+
   if (error) {
     console.error('日志读取出错：', error);
   } else {
     console.log('获取到的日志：', data);
-    // 在页面中显示日志
     displayLogs(data);
   }
 }
@@ -40,7 +40,7 @@ function displayLogs(logs) {
   
   logs.forEach(log => {
     const logItem = document.createElement('div');
-    logItem.textContent = `${log.created_at}: ${log.message}`;
+    logItem.textContent = `${new Date(log.created_at).toLocaleString()}: ${log.message}`;
     logContainer.appendChild(logItem);
   });
 }
