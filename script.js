@@ -1,7 +1,9 @@
-// 初始化 Supabase 客户端
+// 确保 Supabase 在使用前已正确初始化
+import { createClient } from '@supabase/supabase-js'
+
 const supabaseUrl = 'https://vuxbqfacclzncwuyeiar.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ1eGJxZmFjY2x6bmN3dXllaWFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjc1MjQ1NDQsImV4cCI6MjA0MzEwMDU0NH0.-cDq2zClDjmzrH3N587jjyUn8Y9eWG9_xMGXh26N0Co';
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 let meetDate, loveDate;
 
