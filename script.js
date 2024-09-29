@@ -1,7 +1,3 @@
-window.addEventListener('unhandledrejection', function(event) {
-    console.error('Unhandled promise rejection:', event.reason);
-});
-
 document.addEventListener('DOMContentLoaded', function() {
     // 初始化Swiper轮播
     new Swiper('.swiper', {
